@@ -12,6 +12,8 @@ import net.cdahmedeh.ultimeter.ui.controller.TodoController;
 import net.cdahmedeh.ultimeter.ui.util.Icons;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDescriptionEditing;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDescriptionProvider;
+import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDueDateEditing;
+import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDueDateProvider;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTransfer;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTreeProvider;
 
@@ -49,6 +51,7 @@ public class TodoView {
     private Composite container;
     private TreeViewer todoTreeViewer;
     private TreeViewerColumn descriptionColumn;
+    private TreeViewerColumn dueDateColumn;
 
     public TodoView(Composite parent, TodoController todoController) {
         this.todoController = todoController;
@@ -119,6 +122,11 @@ public class TodoView {
         descriptionColumn.getColumn().setText("Description");
         descriptionColumn.getColumn().setWidth(200);
         
+        // Create the columns for the table
+        dueDateColumn = new TreeViewerColumn(todoTreeViewer, SWT.NONE);
+        dueDateColumn.getColumn().setText("Due Date");
+        dueDateColumn.getColumn().setWidth(100);
+        
         // Enable editing table entries with double-clicking the mouse.
         val actSupport = new ColumnViewerEditorActivationStrategy(todoTreeViewer) {
             @Override
@@ -183,6 +191,9 @@ public class TodoView {
         descriptionColumn.setLabelProvider(new TodoDescriptionProvider());
         descriptionColumn.setEditingSupport(new TodoDescriptionEditing(todoTreeViewer, todoController));
 
+        dueDateColumn.setLabelProvider(new TodoDueDateProvider());
+        dueDateColumn.setEditingSupport(new TodoDueDateEditing(todoTreeViewer, todoController));
+        
         todoTreeViewer.setContentProvider(new TodoTreeProvider(todoController));
         todoTreeViewer.setInput(todoController.getRootTodo());
     }
