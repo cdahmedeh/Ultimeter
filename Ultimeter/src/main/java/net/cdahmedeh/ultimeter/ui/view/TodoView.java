@@ -62,7 +62,7 @@ public class TodoView {
     }
 
     private void createToolBar() {
-        ToolBar toolbar = new ToolBar(container, SWT.HORIZONTAL | SWT.RIGHT);
+        ToolBar toolbar = new ToolBar(container, SWT.HORIZONTAL | SWT.RIGHT | SWT.FLAT);
        
         GridData barGridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
         toolbar.setLayoutData(barGridData);
@@ -89,6 +89,18 @@ public class TodoView {
                     todoController.delete(selectedTodo);
                     refreshTable();
                 }
+            }
+        });
+        
+        new ToolItem(toolbar, SWT.SEPARATOR);
+        
+        final ToolItem expandAllTodosItem = new ToolItem(toolbar, SWT.PUSH);
+        expandAllTodosItem.setText("Expand All Todos");
+        expandAllTodosItem.setImage(Icons.getIcon(expandAllTodosItem, "expand-all-todos"));
+        expandAllTodosItem.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                todoTreeViewer.expandAll();
             }
         });
     }
