@@ -79,7 +79,7 @@ public class TodoView {
 
     private void createTodoTable() {
         // Build the table.
-        todoTreeViewer = new TreeViewer(container, SWT.FULL_SELECTION);
+        todoTreeViewer = new TreeViewer(container, SWT.FULL_SELECTION | SWT.BORDER);
         todoTreeViewer.getTree().setHeaderVisible(true);
         
         // Position the table so that it takes all available space.
