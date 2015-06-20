@@ -76,6 +76,21 @@ public class TodoManager {
     }
     
     /**
+     * Deletes provided todo from the database. Will also remove any descendant
+     * todos.
+     * 
+     * @param todo The todo to delete with all of its children.
+     */
+    @SneakyThrows
+    public void delete(Todo todo) {
+        for (Todo child : getChildren(todo)) {
+            delete(child);
+        }
+        deorderTodo(todo);
+        todoDao.delete(todo);
+    }
+    
+    /**
      * Moves the provided todo such that it is after the target todo. The 
      * provided todo will share the same parent as target todo.
      * 
@@ -228,6 +243,9 @@ public class TodoManager {
      */
     @SneakyThrows
     private void deorderTodo(Todo todo) {
+        // Keep ordinal updated due to other operations.
+        todoDao.refresh(todo);
+        
         final long todoOrdinal = todo.getOrdinal();
 
         // Invalidate the todo ordinal

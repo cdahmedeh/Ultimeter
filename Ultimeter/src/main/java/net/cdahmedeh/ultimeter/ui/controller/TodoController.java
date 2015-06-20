@@ -50,6 +50,15 @@ public class TodoController {
     }
     
     /**
+     * Delete todo and sub-todos.
+     * 
+     * @param todo The todo to delete along with sub-todos.
+     */
+    public void delete(Todo todo) {
+        todoManager.delete(todo);
+    }
+    
+    /**
      * Re-parents the provided todo to the target.
      * 
      * @param todo The todo to re-parent.

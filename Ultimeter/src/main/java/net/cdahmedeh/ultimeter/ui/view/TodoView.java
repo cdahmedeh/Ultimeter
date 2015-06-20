@@ -77,6 +77,20 @@ public class TodoView {
                 refreshTable();
             }
         });
+        
+        final ToolItem deleteTodoItem = new ToolItem(toolbar, SWT.PUSH);
+        deleteTodoItem.setText("Delete Todo");
+        deleteTodoItem.setImage(Icons.getIcon(deleteTodoItem, "delete-todo"));
+        deleteTodoItem.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                Todo selectedTodo = getSelectedTodo();
+                if (selectedTodo != null) {
+                    todoController.delete(selectedTodo);
+                    refreshTable();
+                }
+            }
+        });
     }
 
     private void createTodoTable() {
@@ -117,8 +131,7 @@ public class TodoView {
         DragSourceAdapter sourceAdapter = new DragSourceAdapter() {
             @Override
             public void dragSetData(DragSourceEvent event) {
-                final ITreeSelection selection = (ITreeSelection) todoTreeViewer.getSelection();
-                event.data = selection.getFirstElement();
+                event.data = getSelectedTodo();
             }
         };
         
@@ -172,4 +185,13 @@ public class TodoView {
         todoTreeViewer.setExpandedTreePaths(expandedTreePaths);
     }
 
+    /**
+     * Retrieves a reference to the todo that is selected in the todo table.
+     * 
+     * @return A reference to the selected todo.
+     */
+    private Todo getSelectedTodo() {
+        final ITreeSelection selection = (ITreeSelection) todoTreeViewer.getSelection();
+        return (Todo) selection.getFirstElement();
+    }
 }
