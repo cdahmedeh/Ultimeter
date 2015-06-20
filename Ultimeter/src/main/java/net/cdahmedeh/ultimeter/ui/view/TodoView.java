@@ -17,8 +17,11 @@ import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDueDateProvider;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTransfer;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTreeProvider;
 
+import org.eclipse.jface.layout.TreeColumnLayout;
+import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -33,6 +36,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -109,23 +113,32 @@ public class TodoView {
     }
 
     private void createTodoTable() {
+    	// Wrap the table in a composite. Needed for column layout support.
+    	Composite treeContainer = new Composite(container, SWT.NONE);
+    	val columnLayout = new TreeColumnLayout();
+    	treeContainer.setLayout(columnLayout);
+    	
+    	// Position the container so that it takes all available space.
+    	GridData treeGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+    	treeContainer.setLayoutData(treeGridData);
+    	
         // Build the table.
-        todoTreeViewer = new TreeViewer(container, SWT.FULL_SELECTION | SWT.BORDER);
+        todoTreeViewer = new TreeViewer(treeContainer, SWT.FULL_SELECTION | SWT.BORDER);
         todoTreeViewer.getTree().setHeaderVisible(true);
         
-        // Position the table so that it takes all available space.
-        GridData treeGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-        todoTreeViewer.getTree().setLayoutData(treeGridData);
-
         // Create the columns for the table
         descriptionColumn = new TreeViewerColumn(todoTreeViewer, SWT.NONE);
         descriptionColumn.getColumn().setText("Description");
-        descriptionColumn.getColumn().setWidth(200);
+        descriptionColumn.getColumn().setResizable(false);
         
         // Create the columns for the table
         dueDateColumn = new TreeViewerColumn(todoTreeViewer, SWT.NONE);
         dueDateColumn.getColumn().setText("Due Date");
-        dueDateColumn.getColumn().setWidth(100);
+        dueDateColumn.getColumn().setResizable(false);
+        
+        // Set column layout
+        columnLayout.setColumnData(descriptionColumn.getColumn(), new ColumnWeightData(100));
+        columnLayout.setColumnData(dueDateColumn.getColumn(), new ColumnWeightData(0, 160));
         
         // Enable editing table entries with double-clicking the mouse.
         val actSupport = new ColumnViewerEditorActivationStrategy(todoTreeViewer) {
