@@ -9,6 +9,7 @@ import static org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent.PROGRA
 import lombok.val;
 import net.cdahmedeh.ultimeter.domain.Todo;
 import net.cdahmedeh.ultimeter.ui.controller.TodoController;
+import net.cdahmedeh.ultimeter.ui.util.Icons;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDescriptionEditing;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDescriptionProvider;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTransfer;
@@ -61,13 +62,14 @@ public class TodoView {
     }
 
     private void createToolBar() {
-        ToolBar toolbar = new ToolBar(container, SWT.HORIZONTAL);
+        ToolBar toolbar = new ToolBar(container, SWT.HORIZONTAL | SWT.RIGHT);
        
         GridData barGridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
         toolbar.setLayoutData(barGridData);
         
         final ToolItem addTodoItem = new ToolItem(toolbar, SWT.PUSH);
         addTodoItem.setText("Add Todo");
+        addTodoItem.setImage(Icons.getIcon(addTodoItem, "add-todo"));
         addTodoItem.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
