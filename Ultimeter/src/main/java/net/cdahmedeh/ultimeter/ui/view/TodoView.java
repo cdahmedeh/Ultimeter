@@ -7,7 +7,7 @@ import static org.eclipse.jface.viewers.ColumnViewerEditor.TABBING_VERTICAL;
 import static org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION;
 import static org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent.PROGRAMMATIC;
 import lombok.val;
-import net.cdahmedeh.ultimeter.domain.Todo;
+import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.ui.controller.TodoController;
 import net.cdahmedeh.ultimeter.ui.util.Icons;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDescriptionEditing;

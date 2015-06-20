@@ -3,7 +3,7 @@ package net.cdahmedeh.ultimeter.persistence.manager;
 import java.sql.SQLException;
 
 import lombok.Getter;
-import net.cdahmedeh.ultimeter.domain.Todo;
+import net.cdahmedeh.ultimeter.core.domain.Todo;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;

@@ -2,7 +2,7 @@ package net.cdahmedeh.ultimeter.ui.controller;
 
 import java.util.List;
 
-import net.cdahmedeh.ultimeter.domain.Todo;
+import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.persistence.dao.TodoManager;
 
 public class TodoController {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.SneakyThrows;
 import lombok.val;
-import net.cdahmedeh.ultimeter.domain.Todo;
+import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.persistence.manager.PersistenceManager;
 
 import com.j256.ormlite.dao.Dao;

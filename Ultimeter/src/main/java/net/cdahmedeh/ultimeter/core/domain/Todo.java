@@ -1,4 +1,4 @@
-package net.cdahmedeh.ultimeter.domain;
+package net.cdahmedeh.ultimeter.core.domain;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;

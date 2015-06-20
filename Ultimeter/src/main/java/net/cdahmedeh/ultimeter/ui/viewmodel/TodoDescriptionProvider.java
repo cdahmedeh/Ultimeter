@@ -1,6 +1,6 @@
 package net.cdahmedeh.ultimeter.ui.viewmodel;
 
-import net.cdahmedeh.ultimeter.domain.Todo;
+import net.cdahmedeh.ultimeter.core.domain.Todo;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 
