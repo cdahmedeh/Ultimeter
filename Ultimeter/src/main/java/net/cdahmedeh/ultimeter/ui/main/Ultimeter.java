@@ -27,6 +27,7 @@ public class Ultimeter {
         // Create the UI display
         final Display display = new Display();
         final Shell shell = new Shell(display);
+        shell.setText("Ultimeter - Time Management System");
         shell.setLayout(new FillLayout());
 
         // Create Views
