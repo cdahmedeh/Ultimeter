@@ -1,8 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 version = '0.0-DEV'
+mainClassName = 'net.cdahmedeh.ultimeter.ui.main.Ultimeter'
 
 repositories {
     mavenCentral()
