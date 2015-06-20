@@ -1,5 +1,7 @@
 package net.cdahmedeh.ultimeter.ui.viewmodel;
 
+import java.time.ZonedDateTime;
+
 import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.core.parser.DateParser;
 import net.cdahmedeh.ultimeter.ui.controller.TodoController;
@@ -39,7 +41,8 @@ public class TodoDueDateEditing extends EditingSupport {
     @Override
     protected Object getValue(Object element) {
         final Todo todo = (Todo) element;
-        return DateParser.unparse(todo.getDueDate());
+        ZonedDateTime dueDate = todo.getDueDate();
+        return dueDate == null ? "" : dueDate.toString();
     }
 
     @Override
