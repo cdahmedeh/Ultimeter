@@ -1,5 +1,6 @@
 package net.cdahmedeh.ultimeter.persistence.dao;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import lombok.SneakyThrows;
@@ -144,6 +145,32 @@ public class TodoManager {
     }
     
     /**
+     * Retrieves the due date of the nearest ancestor with one. Null if none of 
+     * them do.
+     * 
+     * @param todo The todo to find the ancestral due date for.
+     * @return The nearest due date. Null if none found.
+     */
+    @SneakyThrows
+    public ZonedDateTime getAncestorDueDate(Todo todo) {
+        Todo pointer = todo;
+
+        while (pointer != null) {
+            // Ensures that foreign object is loaded by ORM.
+            todoDao.refresh(pointer);
+            
+            ZonedDateTime dueDate = pointer.getDueDate();
+            if (dueDate != null) {
+                return dueDate;
+            }
+
+            pointer = pointer.getParent();
+        }
+
+        return null;
+    }
+    
+    /**
      * Builds a new Todo and stores it in the database. However, it is not 
      * set with parent or ordinal.
      * 
@@ -276,6 +303,7 @@ public class TodoManager {
             }
 
             // Ensures that foreign object is loaded by ORM.
+            // TODO: This could be just lucky.
             todoDao.refresh(pointer);
             
             pointer = pointer.getParent();

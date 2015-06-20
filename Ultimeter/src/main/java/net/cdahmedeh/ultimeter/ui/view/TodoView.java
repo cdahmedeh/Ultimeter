@@ -191,7 +191,7 @@ public class TodoView {
         descriptionColumn.setLabelProvider(new TodoDescriptionProvider());
         descriptionColumn.setEditingSupport(new TodoDescriptionEditing(todoTreeViewer, todoController));
 
-        dueDateColumn.setLabelProvider(new TodoDueDateProvider());
+        dueDateColumn.setLabelProvider(new TodoDueDateProvider(todoTreeViewer, todoController));
         dueDateColumn.setEditingSupport(new TodoDueDateEditing(todoTreeViewer, todoController));
         
         todoTreeViewer.setContentProvider(new TodoTreeProvider(todoController));

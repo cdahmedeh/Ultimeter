@@ -1,7 +1,9 @@
 package net.cdahmedeh.ultimeter.ui.controller;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
+import lombok.SneakyThrows;
 import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.persistence.dao.TodoManager;
 
@@ -86,5 +88,16 @@ public class TodoController {
      */
     public void moveTodoAfter(Todo todo, Todo target) {
         todoManager.moveTodoAfter(todo, target);
+    }
+    
+    /**
+     * Retrieves the due date of the nearest ancestor with one. Null if none of 
+     * them do.
+     * 
+     * @param todo The todo to find the ancestral due date for.
+     * @return The nearest due date. Null if none found.
+     */
+    public ZonedDateTime getAncestorDueDate(Todo todo) {
+    	return todoManager.getAncestorDueDate(todo);
     }
 }
