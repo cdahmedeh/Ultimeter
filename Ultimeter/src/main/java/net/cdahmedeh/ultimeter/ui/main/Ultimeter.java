@@ -3,6 +3,7 @@ package net.cdahmedeh.ultimeter.ui.main;
 import net.cdahmedeh.ultimeter.persistence.dao.TodoManager;
 import net.cdahmedeh.ultimeter.persistence.manager.PersistenceManager;
 import net.cdahmedeh.ultimeter.ui.controller.TodoController;
+import net.cdahmedeh.ultimeter.ui.util.Icons;
 import net.cdahmedeh.ultimeter.ui.view.TodoView;
 
 import org.eclipse.swt.layout.FillLayout;
@@ -28,6 +29,7 @@ public class Ultimeter {
         final Display display = new Display();
         final Shell shell = new Shell(display);
         shell.setText("Ultimeter - Time Management System");
+        shell.setImage(Icons.getIcon(shell, "ultimeter"));
         shell.setLayout(new FillLayout());
 
         // Create Views
