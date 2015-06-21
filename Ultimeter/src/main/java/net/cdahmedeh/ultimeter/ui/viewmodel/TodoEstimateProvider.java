@@ -1,7 +1,6 @@
 package net.cdahmedeh.ultimeter.ui.viewmodel;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
 
 import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.core.parser.DurationParser;

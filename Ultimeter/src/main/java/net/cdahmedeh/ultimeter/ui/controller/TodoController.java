@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import lombok.SneakyThrows;
 import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.persistence.dao.TodoManager;
 

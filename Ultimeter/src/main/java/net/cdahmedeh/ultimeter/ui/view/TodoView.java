@@ -20,7 +20,6 @@ import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTransfer;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTreeProvider;
 
 import org.eclipse.jface.layout.TreeColumnLayout;
-import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -38,7 +37,6 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
