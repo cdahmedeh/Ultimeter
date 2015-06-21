@@ -5,17 +5,17 @@ import java.time.format.DateTimeParseException;
 
 public class DurationParser {
     /**
-     * Converts duration to human-readable string. A blank string is returned 
-     * for null.
+     * Converts duration to human-readable string. A blank string or empty 
+     * duration is returned for null.
      * 
      * @param duration The duration to convert.
      * @return A human readable string. 
      */
     public static String unparse(Duration duration) {
-        if (duration == null) {
+        if (duration == null || duration.isZero()) {
             return "";
         }
-        return duration.toString();
+        return duration.getSeconds() / 3600.0 + "h";
     }
     
     /**
@@ -32,6 +32,14 @@ public class DurationParser {
         try {
             return Duration.parse(text);    
         } catch (DateTimeParseException e) {
+            
+        }
+        
+        try {
+            text = text.replaceAll("h", "");
+            double hours = Double.parseDouble(text);
+            return Duration.ofSeconds((long) (hours * 3600));
+        } catch (NumberFormatException e) {
             
         }
         
