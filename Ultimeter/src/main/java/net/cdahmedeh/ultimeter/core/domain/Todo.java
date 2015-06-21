@@ -1,8 +1,10 @@
 package net.cdahmedeh.ultimeter.core.domain;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 
+import net.cdahmedeh.ultimeter.persistence.type.DurationPersister;
 import net.cdahmedeh.ultimeter.persistence.type.ZonedDateTimePersister;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -47,4 +49,8 @@ public class Todo implements Serializable {
     @Getter @Setter
     @DatabaseField(persisterClass = ZonedDateTimePersister.class)
     private ZonedDateTime dueDate = null;
+    
+    @Getter @Setter
+    @DatabaseField(persisterClass = DurationPersister.class)
+    private Duration estimate = null;
 }

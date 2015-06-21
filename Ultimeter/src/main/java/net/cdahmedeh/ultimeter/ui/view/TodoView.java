@@ -14,6 +14,8 @@ import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDescriptionEditing;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDescriptionProvider;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDueDateEditing;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDueDateProvider;
+import net.cdahmedeh.ultimeter.ui.viewmodel.TodoEstimateEditing;
+import net.cdahmedeh.ultimeter.ui.viewmodel.TodoEstimateProvider;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTransfer;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTreeProvider;
 
@@ -56,6 +58,7 @@ public class TodoView {
     private TreeViewer todoTreeViewer;
     private TreeViewerColumn descriptionColumn;
     private TreeViewerColumn dueDateColumn;
+    private TreeViewerColumn estimateColumn;
 
     public TodoView(Composite parent, TodoController todoController) {
         this.todoController = todoController;
@@ -131,13 +134,17 @@ public class TodoView {
         descriptionColumn.getColumn().setText("Description");
         descriptionColumn.getColumn().setResizable(false);
         
-        // Create the columns for the table
+        estimateColumn = new TreeViewerColumn(todoTreeViewer, SWT.NONE);
+        estimateColumn.getColumn().setText("Estimate");
+        estimateColumn.getColumn().setResizable(false);
+        
         dueDateColumn = new TreeViewerColumn(todoTreeViewer, SWT.NONE);
         dueDateColumn.getColumn().setText("Due Date");
         dueDateColumn.getColumn().setResizable(false);
         
         // Set column layout
         columnLayout.setColumnData(descriptionColumn.getColumn(), new ColumnWeightData(100));
+        columnLayout.setColumnData(estimateColumn.getColumn(), new ColumnWeightData(0, 160));
         columnLayout.setColumnData(dueDateColumn.getColumn(), new ColumnWeightData(0, 160));
         
         // Enable editing table entries with double-clicking the mouse.
@@ -204,6 +211,9 @@ public class TodoView {
         descriptionColumn.setLabelProvider(new TodoDescriptionProvider());
         descriptionColumn.setEditingSupport(new TodoDescriptionEditing(todoTreeViewer, todoController));
 
+        estimateColumn.setLabelProvider(new TodoEstimateProvider(todoTreeViewer, todoController));
+        estimateColumn.setEditingSupport(new TodoEstimateEditing(todoTreeViewer, todoController));
+        
         dueDateColumn.setLabelProvider(new TodoDueDateProvider(todoTreeViewer, todoController));
         dueDateColumn.setEditingSupport(new TodoDueDateEditing(todoTreeViewer, todoController));
         
