@@ -1,5 +1,6 @@
 package net.cdahmedeh.ultimeter.ui.controller;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -99,5 +100,16 @@ public class TodoController {
      */
     public ZonedDateTime getAncestorDueDate(Todo todo) {
     	return todoManager.getAncestorDueDate(todo);
+    }
+    
+    /**
+     * Retrieves the total duration by adding the estimate of all the
+     * descendant todos. The total includes the provided todo.
+     * 
+     * @param todo The todo to find the children for.
+     * @return A duration with the total value. Never null.
+     */
+    public Duration getDescendantTotalEstimate(Todo todo) {
+        return todoManager.getDescendantTotalEstimate(todo);
     }
 }

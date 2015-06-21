@@ -1,5 +1,6 @@
 package net.cdahmedeh.ultimeter.persistence.dao;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -168,6 +169,29 @@ public class TodoManager {
         }
 
         return null;
+    }
+    
+    /**
+     * Retrieves the total duration by adding the estimate of all the
+     * descendant todos. The total includes the provided todo.
+     * 
+     * @param todo The todo to find the children for.
+     * @return A duration with the total value. Never null.
+     */
+    @SneakyThrows
+    public Duration getDescendantTotalEstimate(Todo todo) {
+        Duration duration = Duration.ZERO;
+        
+        Duration estimate = todo.getEstimate();
+        if (estimate != null) {
+            duration = duration.plus(estimate);
+        }
+        
+        for (Todo child : getChildren(todo)) {
+            duration = duration.plus(getDescendantTotalEstimate(child));
+        }
+        
+        return duration;
     }
     
     /**
