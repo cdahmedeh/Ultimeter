@@ -132,18 +132,18 @@ public class TodoView {
         descriptionColumn.getColumn().setText("Description");
         descriptionColumn.getColumn().setResizable(false);
         
-        estimateColumn = new TreeViewerColumn(todoTreeViewer, SWT.NONE);
+        estimateColumn = new TreeViewerColumn(todoTreeViewer, SWT.TRAIL);
         estimateColumn.getColumn().setText("Estimate");
         estimateColumn.getColumn().setResizable(false);
         
-        dueDateColumn = new TreeViewerColumn(todoTreeViewer, SWT.NONE);
+        dueDateColumn = new TreeViewerColumn(todoTreeViewer, SWT.TRAIL);
         dueDateColumn.getColumn().setText("Due Date");
         dueDateColumn.getColumn().setResizable(false);
         
         // Set column layout
         columnLayout.setColumnData(descriptionColumn.getColumn(), new ColumnWeightData(100));
-        columnLayout.setColumnData(estimateColumn.getColumn(), new ColumnWeightData(0, 160));
-        columnLayout.setColumnData(dueDateColumn.getColumn(), new ColumnWeightData(0, 160));
+        columnLayout.setColumnData(estimateColumn.getColumn(), new ColumnWeightData(0, 90));
+        columnLayout.setColumnData(dueDateColumn.getColumn(), new ColumnWeightData(0, 90));
         
         // Enable editing table entries with double-clicking the mouse.
         val actSupport = new ColumnViewerEditorActivationStrategy(todoTreeViewer) {
