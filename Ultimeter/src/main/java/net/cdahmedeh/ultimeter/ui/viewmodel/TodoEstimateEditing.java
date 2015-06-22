@@ -9,6 +9,7 @@ import net.cdahmedeh.ultimeter.ui.controller.TodoController;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 
 /**
@@ -50,7 +51,12 @@ public class TodoEstimateEditing extends EditingSupport {
         final Todo todo = (Todo) element;
         todo.setEstimate(DurationParser.parse(value.toString()));
         todoController.save(todo);
-        getViewer().update(element, null);
+        updateTable(element);
     }
-
+    
+    private void updateTable(Object element) {
+        TreePath[] expandedTreePaths = ((TreeViewer)getViewer()).getExpandedTreePaths();
+        getViewer().refresh(true);
+        ((TreeViewer)getViewer()).setExpandedTreePaths(expandedTreePaths);
+    }
 }
