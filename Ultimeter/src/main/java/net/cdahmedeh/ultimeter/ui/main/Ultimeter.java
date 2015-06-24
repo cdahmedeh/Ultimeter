@@ -1,14 +1,12 @@
 package net.cdahmedeh.ultimeter.ui.main;
 
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+
 import net.cdahmedeh.ultimeter.persistence.dao.TodoManager;
 import net.cdahmedeh.ultimeter.persistence.manager.PersistenceManager;
 import net.cdahmedeh.ultimeter.ui.controller.TodoController;
-import net.cdahmedeh.ultimeter.ui.util.Icons;
 import net.cdahmedeh.ultimeter.ui.view.TodoView;
-
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * This class starts the Ultimeter UI.
@@ -25,28 +23,22 @@ public class Ultimeter {
         // Prepare controllers
         final TodoController todoController = new TodoController(todoManager);
         
-        // Create the UI display
-        final Display display = new Display();
-        final Shell shell = new Shell(display);
-        shell.setText("Ultimeter - Time Management System");
-        shell.setImage(Icons.getIcon(shell, "ultimeter"));
-        shell.setLayout(new FillLayout());
+        // Set look and feel
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        
+        // Create the UI window
+        final JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Ultimeter - Time Management System");
+        frame.setSize(800, 600);
+        frame.setVisible(true);
 
         // Create Views
-        @SuppressWarnings("unused")
-        final TodoView todoView = new TodoView(shell, todoController);
+        final TodoView todoView = new TodoView(todoController);
+        frame.add(todoView);
+        todoView.refreshTable();
 
         // Display the UI
-        shell.open();
-
-        // Start event loop
-        while (!shell.isDisposed()) {
-            if (!display.readAndDispatch()) {
-                display.sleep();
-            }
-        }
-
-        // Clean up.
-        display.dispose();
+        frame.setVisible(true);
     }
 }
