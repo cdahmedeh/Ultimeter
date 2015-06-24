@@ -12,6 +12,7 @@ import javax.swing.JToolBar;
 
 import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.ui.controller.TodoController;
+import net.cdahmedeh.ultimeter.ui.util.Icons;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTableModel;
 
 public class TodoView extends JComponent {
@@ -36,7 +37,7 @@ public class TodoView extends JComponent {
         toolbar.setFloatable(false);
         add(toolbar, BorderLayout.NORTH);
         
-        JButton addTodoItem = new JButton("Add Todo", null);
+        JButton addTodoItem = new JButton("Add Todo", Icons.getIcon("add-todo"));
         toolbar.add(addTodoItem);
         addTodoItem.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +47,7 @@ public class TodoView extends JComponent {
             }
         });
         
-        JButton deleteTodoButton = new JButton("Delete Todo", null);
+        JButton deleteTodoButton = new JButton("Delete Todo", Icons.getIcon("delete-todo"));
         toolbar.add(deleteTodoButton);
         deleteTodoButton.addActionListener(new ActionListener() {
             @Override

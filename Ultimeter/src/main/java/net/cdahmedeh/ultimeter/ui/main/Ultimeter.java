@@ -1,12 +1,13 @@
 package net.cdahmedeh.ultimeter.ui.main;
 
 import javax.swing.JFrame;
-import javax.swing.UIManager;
 
 import net.cdahmedeh.ultimeter.persistence.dao.TodoManager;
 import net.cdahmedeh.ultimeter.persistence.manager.PersistenceManager;
 import net.cdahmedeh.ultimeter.ui.controller.TodoController;
 import net.cdahmedeh.ultimeter.ui.view.TodoView;
+
+import com.alee.laf.WebLookAndFeel;
 
 /**
  * This class starts the Ultimeter UI.
@@ -24,7 +25,7 @@ public class Ultimeter {
         final TodoController todoController = new TodoController(todoManager);
         
         // Set look and feel
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        WebLookAndFeel.install();
         
         // Create the UI window
         final JFrame frame = new JFrame();
