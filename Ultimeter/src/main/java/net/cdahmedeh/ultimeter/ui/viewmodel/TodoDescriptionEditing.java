@@ -5,8 +5,8 @@ import net.cdahmedeh.ultimeter.ui.controller.TodoController;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * For editing the todo description.
@@ -19,9 +19,9 @@ public class TodoDescriptionEditing extends EditingSupport {
 
     private TextCellEditor editor;
 
-    public TodoDescriptionEditing(TreeViewer viewer, TodoController todoController) {
+    public TodoDescriptionEditing(TableViewer viewer, TodoController todoController) {
         super(viewer);
-        editor = new TextCellEditor(viewer.getTree());
+        editor = new TextCellEditor(viewer.getTable());
         this.todoController = todoController;
     }
 

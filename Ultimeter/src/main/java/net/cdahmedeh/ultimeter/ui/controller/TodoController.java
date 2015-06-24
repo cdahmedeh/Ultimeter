@@ -1,7 +1,5 @@
 package net.cdahmedeh.ultimeter.ui.controller;
 
-import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 import net.cdahmedeh.ultimeter.core.domain.Todo;
@@ -15,22 +13,13 @@ public class TodoController {
     }
     
     /**
-     * Get the root todo.
+     * Retrieves of all todos in the database. The todos are sorted according
+     * to their ordinal. 
      * 
-     * @return A reference to the root todo.
+     * @return A list of all todos stored.
      */
-    public Todo getRootTodo() {
-        return todoManager.getRootTodo();
-    }
-
-    /**
-     * Get immediate children of the provided todo in their ordinal order.
-     * 
-     * @param todo The todo to get the children for.
-     * @return A list of the immediate children of the provided todo.
-     */
-    public List<Todo> getChildren(Todo todo) {
-        return todoManager.getChildren(todo);
+    public List<Todo> getAllTodos() {
+        return todoManager.getAllTodos();
     }
 
     /**
@@ -61,16 +50,6 @@ public class TodoController {
     }
     
     /**
-     * Re-parents the provided todo to the target.
-     * 
-     * @param todo The todo to re-parent.
-     * @param parent The new parent for the provided todo.
-     */
-    public void setTodoParent(Todo todo, Todo parent) {
-        todoManager.setTodoParent(todo, parent);
-    }
-
-    /**
      * Moves the todo before the target.
      * 
      * @param todo The todo to move.
@@ -88,27 +67,5 @@ public class TodoController {
      */
     public void moveTodoAfter(Todo todo, Todo target) {
         todoManager.moveTodoAfter(todo, target);
-    }
-    
-    /**
-     * Retrieves the due date of the nearest ancestor with one. Null if none of 
-     * them do.
-     * 
-     * @param todo The todo to find the ancestral due date for.
-     * @return The nearest due date. Null if none found.
-     */
-    public ZonedDateTime getAncestorDueDate(Todo todo) {
-    	return todoManager.getAncestorDueDate(todo);
-    }
-    
-    /**
-     * Retrieves the total duration by adding the estimate of all the
-     * descendant todos. The total includes the provided todo.
-     * 
-     * @param todo The todo to find the children for.
-     * @return A duration with the total value. Never null.
-     */
-    public Duration getDescendantTotalEstimate(Todo todo) {
-        return todoManager.getDescendantTotalEstimate(todo);
     }
 }

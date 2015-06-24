@@ -8,9 +8,8 @@ import net.cdahmedeh.ultimeter.ui.controller.TodoController;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * For editing the todo estimate.
@@ -23,9 +22,9 @@ public class TodoEstimateEditing extends EditingSupport {
 
     private TextCellEditor editor;
 
-    public TodoEstimateEditing(TreeViewer viewer, TodoController todoController) {
+    public TodoEstimateEditing(TableViewer viewer, TodoController todoController) {
         super(viewer);
-        editor = new TextCellEditor(viewer.getTree());
+        editor = new TextCellEditor(viewer.getTable());
         this.todoController = todoController;
     }
 
@@ -55,8 +54,6 @@ public class TodoEstimateEditing extends EditingSupport {
     }
     
     private void updateTable(Object element) {
-        TreePath[] expandedTreePaths = ((TreeViewer)getViewer()).getExpandedTreePaths();
         getViewer().refresh(true);
-        ((TreeViewer)getViewer()).setExpandedTreePaths(expandedTreePaths);
     }
 }

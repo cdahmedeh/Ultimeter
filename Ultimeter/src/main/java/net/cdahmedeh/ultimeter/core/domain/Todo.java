@@ -15,12 +15,10 @@ import lombok.Setter;
 import com.j256.ormlite.field.DatabaseField;
 
 /**
- * A Todo represents a task to be performed. Todos can be ordered by the user
- * and organized in a hierarchy.
+ * A Todo represents a task to be performed. Todos can be ordered by the user.
  * 
  * Todo ordering is determined by the ordinal field. The first todo starts
- * with index 1 upwards. The ordinal field is dependent on the parent, so
- * ordinal numbers are only unique per parent.
+ * with index 1 upwards.
  *
  * @author Ahmed El-Hajjar
  *
@@ -33,10 +31,6 @@ public class Todo implements Serializable {
     @Getter @Setter
     @DatabaseField(generatedId = true)
     private long id = -1L;
-
-    @Getter @Setter
-    @DatabaseField(uniqueCombo = true, foreign = true)
-    private Todo parent = null;
 
     @Getter @Setter
     @DatabaseField(uniqueCombo = true)

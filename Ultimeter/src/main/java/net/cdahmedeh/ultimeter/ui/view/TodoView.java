@@ -16,18 +16,17 @@ import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDueDateEditing;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoDueDateProvider;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoEstimateEditing;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoEstimateProvider;
+import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTableProvider;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTransfer;
-import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTreeProvider;
 
-import org.eclipse.jface.layout.TreeColumnLayout;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ITreeSelection;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.TreeViewerColumn;
-import org.eclipse.jface.viewers.TreeViewerEditor;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -53,10 +52,10 @@ public class TodoView {
     private TodoController todoController;
     
     private Composite container;
-    private TreeViewer todoTreeViewer;
-    private TreeViewerColumn descriptionColumn;
-    private TreeViewerColumn dueDateColumn;
-    private TreeViewerColumn estimateColumn;
+    private TableViewer todoTableViewer;
+    private TableViewerColumn descriptionColumn;
+    private TableViewerColumn dueDateColumn;
+    private TableViewerColumn estimateColumn;
 
     public TodoView(Composite parent, TodoController todoController) {
         this.todoController = todoController;
@@ -99,44 +98,32 @@ public class TodoView {
                 }
             }
         });
-        
-        new ToolItem(toolbar, SWT.SEPARATOR);
-        
-        final ToolItem expandAllTodosItem = new ToolItem(toolbar, SWT.PUSH);
-        expandAllTodosItem.setText("Expand All Todos");
-        expandAllTodosItem.setImage(Icons.getIcon(expandAllTodosItem, "expand-all-todos"));
-        expandAllTodosItem.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                todoTreeViewer.expandAll();
-            }
-        });
     }
 
     private void createTodoTable() {
     	// Wrap the table in a composite. Needed for column layout support.
-    	Composite treeContainer = new Composite(container, SWT.NONE);
-    	val columnLayout = new TreeColumnLayout();
-    	treeContainer.setLayout(columnLayout);
+    	Composite tableContainer = new Composite(container, SWT.NONE);
+    	val columnLayout = new TableColumnLayout();
+    	tableContainer.setLayout(columnLayout);
     	
     	// Position the container so that it takes all available space.
-    	GridData treeGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-    	treeContainer.setLayoutData(treeGridData);
+    	GridData tableGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+    	tableContainer.setLayoutData(tableGridData);
     	
         // Build the table.
-        todoTreeViewer = new TreeViewer(treeContainer, SWT.FULL_SELECTION | SWT.BORDER);
-        todoTreeViewer.getTree().setHeaderVisible(true);
+        todoTableViewer = new TableViewer(tableContainer, SWT.FULL_SELECTION | SWT.BORDER);
+        todoTableViewer.getTable().setHeaderVisible(true);
         
         // Create the columns for the table
-        descriptionColumn = new TreeViewerColumn(todoTreeViewer, SWT.NONE);
+        descriptionColumn = new TableViewerColumn(todoTableViewer, SWT.NONE);
         descriptionColumn.getColumn().setText("Description");
         descriptionColumn.getColumn().setResizable(false);
         
-        estimateColumn = new TreeViewerColumn(todoTreeViewer, SWT.TRAIL);
+        estimateColumn = new TableViewerColumn(todoTableViewer, SWT.TRAIL);
         estimateColumn.getColumn().setText("Estimate");
         estimateColumn.getColumn().setResizable(false);
         
-        dueDateColumn = new TreeViewerColumn(todoTreeViewer, SWT.TRAIL);
+        dueDateColumn = new TableViewerColumn(todoTableViewer, SWT.TRAIL);
         dueDateColumn.getColumn().setText("Due Date");
         dueDateColumn.getColumn().setResizable(false);
         
@@ -146,7 +133,7 @@ public class TodoView {
         columnLayout.setColumnData(dueDateColumn.getColumn(), new ColumnWeightData(0, 90));
         
         // Enable editing table entries with double-clicking the mouse.
-        val actSupport = new ColumnViewerEditorActivationStrategy(todoTreeViewer) {
+        val actSupport = new ColumnViewerEditorActivationStrategy(todoTableViewer) {
             @Override
             protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
                 return event.eventType == MOUSE_DOUBLE_CLICK_SELECTION || 
@@ -160,7 +147,7 @@ public class TodoView {
                 | TABBING_VERTICAL
                 | KEYBOARD_ACTIVATION;
 
-        TreeViewerEditor.create(todoTreeViewer, actSupport, feature);
+        TableViewerEditor.create(todoTableViewer, actSupport, feature);
         
         // Enable drag and drop support for todo re-ordering.
         final int dndOperations = DND.DROP_MOVE;
@@ -173,7 +160,7 @@ public class TodoView {
             }
         };
         
-        ViewerDropAdapter dropAdapter = new ViewerDropAdapter(todoTreeViewer) {
+        ViewerDropAdapter dropAdapter = new ViewerDropAdapter(todoTableViewer) {
             @Override
             public boolean validateDrop(Object target, int operation, TransferData transferType) {
                 return true;
@@ -189,7 +176,7 @@ public class TodoView {
                 }
                 
                 if (getCurrentLocation() == LOCATION_ON) {
-                    todoController.setTodoParent(todo, target);
+                    
                 } else if (getCurrentLocation() == LOCATION_BEFORE) {
                     todoController.moveTodoBefore(todo, target);
                 } else if (getCurrentLocation() == LOCATION_AFTER) {
@@ -202,31 +189,29 @@ public class TodoView {
             }
         };
         
-        todoTreeViewer.addDragSupport(dndOperations, transferTypes, sourceAdapter);
-        todoTreeViewer.addDropSupport(dndOperations, transferTypes, dropAdapter);
+        todoTableViewer.addDragSupport(dndOperations, transferTypes, sourceAdapter);
+        todoTableViewer.addDropSupport(dndOperations, transferTypes, dropAdapter);
         
         // Load models, providers and editors.
         descriptionColumn.setLabelProvider(new TodoDescriptionProvider());
-        descriptionColumn.setEditingSupport(new TodoDescriptionEditing(todoTreeViewer, todoController));
+        descriptionColumn.setEditingSupport(new TodoDescriptionEditing(todoTableViewer, todoController));
 
-        estimateColumn.setLabelProvider(new TodoEstimateProvider(todoTreeViewer, todoController));
-        estimateColumn.setEditingSupport(new TodoEstimateEditing(todoTreeViewer, todoController));
+        estimateColumn.setLabelProvider(new TodoEstimateProvider());
+        estimateColumn.setEditingSupport(new TodoEstimateEditing(todoTableViewer, todoController));
         
-        dueDateColumn.setLabelProvider(new TodoDueDateProvider(todoTreeViewer, todoController));
-        dueDateColumn.setEditingSupport(new TodoDueDateEditing(todoTreeViewer, todoController));
+        dueDateColumn.setLabelProvider(new TodoDueDateProvider());
+        dueDateColumn.setEditingSupport(new TodoDueDateEditing(todoTableViewer, todoController));
         
-        todoTreeViewer.setContentProvider(new TodoTreeProvider(todoController));
-        todoTreeViewer.setInput(todoController.getRootTodo());
+        todoTableViewer.setContentProvider(new TodoTableProvider(todoController));
+        todoTableViewer.setInput(new Object());
     }
 
     /**
-     * Refreshes the entire todo tree from the database. Restores expanded/closed
+     * Refreshes the entire todo list from the database. Restores expanded/closed
      * states to nodes.
      */
     private void refreshTable() {
-        TreePath[] expandedTreePaths = todoTreeViewer.getExpandedTreePaths();
-        todoTreeViewer.refresh(true);
-        todoTreeViewer.setExpandedTreePaths(expandedTreePaths);
+        todoTableViewer.refresh(true);
     }
 
     /**
@@ -235,7 +220,7 @@ public class TodoView {
      * @return A reference to the selected todo.
      */
     private Todo getSelectedTodo() {
-        final ITreeSelection selection = (ITreeSelection) todoTreeViewer.getSelection();
+        final IStructuredSelection selection = (IStructuredSelection) todoTableViewer.getSelection();
         return (Todo) selection.getFirstElement();
     }
 }
