@@ -1,19 +1,26 @@
 package net.cdahmedeh.ultimeter.ui.view;
 
 import java.awt.BorderLayout;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.TransferHandler;
 
 import net.cdahmedeh.ultimeter.core.domain.Todo;
 import net.cdahmedeh.ultimeter.ui.controller.TodoController;
 import net.cdahmedeh.ultimeter.ui.util.Icons;
 import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTableModel;
+import net.cdahmedeh.ultimeter.ui.viewmodel.TodoTransferable;
 
 public class TodoView extends JComponent {
     private static final long serialVersionUID = 3020014379823678798L;
@@ -69,6 +76,58 @@ public class TodoView extends JComponent {
         
         todoTableModel = new TodoTableModel(todoController);
         todoTable.setModel(todoTableModel);
+        
+        todoTable.setDragEnabled(true);
+        todoTable.setDropMode(DropMode.INSERT_ROWS);
+
+        todoTable.setTransferHandler(new TransferHandler("todo"){
+            private static final long serialVersionUID = -8859181787553330853L;
+            
+            @Override
+            public int getSourceActions(JComponent c) {
+                return MOVE;
+            }
+            
+            @Override
+            public boolean canImport(TransferSupport support) {
+                return true;
+            }
+            
+            @Override
+            protected Transferable createTransferable(JComponent c) {
+                return new TodoTransferable(getSelectedTodo());
+            }
+            
+            @Override
+            public boolean importData(TransferSupport support) {
+                JTable.DropLocation drop = ((JTable.DropLocation)support.getDropLocation());
+
+                Todo todo = null;
+                try {
+                    todo = (Todo)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
+                Todo target = null;
+                try {
+                    target = todoTableModel.getTodoAt(drop.getRow());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
+                if (target != null) {
+                    todoController.moveTodoBefore(todo, target);    
+                } else {
+                    todoController.moveTodoAfter(todo, todoTableModel.getTodoAt(todoTableModel.getRowCount() - 1));
+                }
+                
+                
+                refreshTable();
+                
+                return true;
+            }
+        });
     }
 
     public void refreshTable() {
